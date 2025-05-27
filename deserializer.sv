@@ -15,7 +15,7 @@ module deserializer (
   // Contador de bits recebidos (0 a 7)
   logic [2:0] bit_counter;
 
-  // Lógica principal do deserializador
+  // Lógica principal do desserializador
   always_ff @(posedge clk_100mhz or posedge reset) begin
     if (reset) begin
       shift_reg     <= 8'b0;       // Reinicia registrador

@@ -28,6 +28,7 @@ module deserializer (
           data_ready  <= 1'b0;     // Libera o sinal data_ready
           status_out  <= 1'b1;     // Módulo volta a ficar disponível
           bit_counter <= 3'b0;     // Reinicia o contador
+          shift_reg   <= 8'b0;     // Reinicia registrador
         end
       end else begin               // Módulo disponível para receber bits
         if (status_out && write_in) begin // Se pode receber e há dado válido

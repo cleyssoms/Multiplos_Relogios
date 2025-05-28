@@ -7,4 +7,4 @@ vsim work.deserializer_tb
 quietly set StdArithNoWarnings 1
 quietly set StdVitalGlitchNoWarnings 1
 do wave.do
-run 1000ms
+run 1ms

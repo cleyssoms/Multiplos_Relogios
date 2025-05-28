@@ -90,6 +90,7 @@ module deserializer_tb;
 
     // Finalização
     $display("\n=== Todos os testes concluídos ===");
+    $stop;
   end
 
 endmodule

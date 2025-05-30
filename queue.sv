@@ -9,27 +9,26 @@ module queue (
 );
 
 logic [63:0] shift_reg;
+logic [7:0] out_data;
 logic [3:0] count;
 
 
 always_ff @(posedge clk_10mhz or posedge reset) begin
   if (reset) begin
-    top_ptr <= 0;
-    tail_ptr <= 0;
     count <= 0;
-    for (int i = 0; i < 8; i++) begin
-      buffer[i] <= 8'd0;
-    end
+    shift_reg <= 0; // TODO n sei se precisa ate
 
   end else begin
-    if (enqeue_in && count < 4'd8) begin
-      enfila;
+    if (enqeue_in && (count < 4'd8)) begin
+      shift_reg <= shift_reg << 8; // TODO rever sintatica
+      shift_reg[7:0] <= data_out;
     end
 
-
-
-
+    if (dequeue_in && (count > 4'd0)) begin
+      out_data <= shift_reg[(len << 3)]; // multiplica por 8 len(tamanho de cada elemento)
+      len--;
+    end
 
 
 assign len_out  = len;
-assign data_out = stack[len];
+assign data_out = out_data;

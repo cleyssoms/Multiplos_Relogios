@@ -20,34 +20,32 @@ module queue_tb;
         #100;
         reset = 0;
 
-        // Teste 1: Inserção simples
+        // Teste 1: Inserção
         data_in = 8'hA5;
         enqueue_in = 1;
         #100;
         enqueue_in = 0;
-        $display("Inserção 1: len_out=%0d, data_out=%h", len_out, data_out);
-        
-        // Teste 2: Inserção múltipla
-        for (int i = 1; i <= 8; i++) begin
+        $display("Inser��o 1: data_in=%h, len_out=%0d", data_in, len_out);
+        for (int i = 2; i <= 8; i++) begin
             data_in = i;
             enqueue_in = 1;
             #100;
+            $display("Inser��o %0d: data_in=%h, len_out=%0d", i, data_in, len_out);
         end
         enqueue_in = 0;
-        $display("Inserção 8: len_out=%0d", len_out);
         
         // Teste 3: Tentativa de overflow
         data_in = 8'hFF;
         enqueue_in = 1;
         #100;
         enqueue_in = 0;
-        $display("Overflow: len_out=%0d (deve ser 8)", len_out);
+        $display("Overflow: data_in=%h, len_out=%0d (deve ser 8)", data_in, len_out);
         
-        // Teste 4: Remoção simples
+        // Teste 4: Remoção
         dequeue_in = 1;
         #100;
         dequeue_in = 0;
-        $display("Remoção 1: data_out=%h (deve ser A5)", data_out);
+        $display("Remo��o 1: data_out=%h (deve ser A5), len_out=%0d (deve ser 7)", data_out, len_out);
         
         // Teste 5: Operação simultânea
         data_in = 8'h77;
@@ -56,8 +54,8 @@ module queue_tb;
         #100;
         enqueue_in = 0;
         dequeue_in = 0;
-        $display("Simultâneo: len_out=%0d, data_out=%h", len_out, data_out);
+        $display("Simult�neo: data_in=%h (deve ser 77), data_out=%h (deve ser 2), len_out=%0d (deve ser 7)", data_in, data_out, len_out);
         
-        $finish;
+        $stop;
     end
 endmodule

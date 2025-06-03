@@ -38,7 +38,7 @@ module queue (
         data_out_reg <= shift_reg[7:0];
 
         // Desloca todos os dados para direita
-        shift_reg <= {8'b0, shift_reg[63:8]}
+        shift_reg <= {8'b0, shift_reg[63:8]};
         count <= count - 1;
       end
 
@@ -47,7 +47,7 @@ module queue (
       if (enqueue_in && dequeue_in && (count == 7)) begin
         // Insere novo dado nos bits superiores
         shift_reg <= {data_in, shift_reg[63:8]};
-        count <= count + 1;
+        count <= count;
       end
     end
   end

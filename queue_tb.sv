@@ -20,7 +20,7 @@ module queue_tb;
         #100;
         reset = 0;
 
-        // Teste 1: InserÃ§Ã£o
+        // Teste 1: Inserção
         data_in = 8'hA5;
         enqueue_in = 1;
         #100;
@@ -41,13 +41,13 @@ module queue_tb;
         enqueue_in = 0;
         $display("Overflow: data_in=%h, len_out=%0d (deve ser 8)", data_in, len_out);
         
-        // Teste 4: RemoÃ§Ã£o
+        // Teste 4: Remoção
         dequeue_in = 1;
         #100;
         dequeue_in = 0;
         $display("Remoção 1: data_out=%h (deve ser A5), len_out=%0d (deve ser 7)", data_out, len_out);
         
-        // Teste 5: OperaÃ§Ã£o simultÃ¢nea
+        // Teste 5: Operação simultânea
         data_in = 8'h77;
         enqueue_in = 1;
         dequeue_in = 1;

@@ -1,5 +1,5 @@
 module deserializer (
-  input  logic       clk_100mhz,   // Clock de 100KHz
+  input  logic       clk_100khz,   // Clock de 100KHz
   input  logic       reset,        // Reset assíncrono
   input  logic       data_in,      // Bit serial de entrada
   input  logic       write_in,     // Bit válido para escrita
@@ -16,7 +16,7 @@ module deserializer (
   logic [2:0] bit_counter;
 
   // Lógica principal do desserializador
-  always_ff @(posedge clk_100mhz or posedge reset) begin
+  always_ff @(posedge clk_100khz or posedge reset) begin
     if (reset) begin
       shift_reg     <= 8'b0;       // Reinicia registrador
       bit_counter   <= 3'b0;       // Reinicia contador

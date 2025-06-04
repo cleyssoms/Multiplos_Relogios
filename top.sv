@@ -9,6 +9,11 @@ module top (
 );
 
   // Wires to connect deserializer and queue
+  logic [3:0] len; // Assuming len is 3 bits (0-8)
+  logic [3:0] len_prev;
+  logic       ack_in;
+  logic       enqueue_in;
+  logic       status_out;
   logic [7:0] deserialized_data;
   logic [7:0] cnt_10khz;
   logic [4:0] cnt_100khz;
@@ -55,6 +60,22 @@ module top (
         clk_10khz <= ~clk_10khz;
     end else begin
         cnt_10khz <= cnt_10khz + 1;
+    end
+  end
+
+
+  // Detect len change and pulse ack_in
+  always_ff @(posedge clk_10khz or posedge queue_rst) begin
+    if (queue_rst) begin
+      len_prev <= 0;
+      ack_in   <= 0;
+    end else begin
+      if (len != len_prev) begin
+        ack_in <= 1;
+      end else begin
+        ack_in <= 0;
+      end
+      len_prev <= len;
     end
   end
 endmodule

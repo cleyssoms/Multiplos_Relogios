@@ -4,8 +4,6 @@ vmap work work
 vlog queue.sv
 vlog deserializer.sv
 vlog top.sv
-# vlog queue_tb.sv
-vsim work.queue_tb
 quietly set StdArithNoWarnings 1
 quietly set StdVitalGlitchNoWarnings 1
 do wave_queue.do

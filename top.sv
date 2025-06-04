@@ -39,7 +39,7 @@ module top (
       .data_in    (deserialized_data),      // Dado de entrada
       .enqueue_in (enqueue_in),             // Sinal para inserir
       .dequeue_in (dequeue_in),             // Sinal para remover
-      .len        (len),                    // Número de elementos (0-8)
+      .len_out        (len),                    // Número de elementos (0-8)
       .data_out   (queue_data_out)          // Dado removido
   );
 

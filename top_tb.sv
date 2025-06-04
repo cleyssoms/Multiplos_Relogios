@@ -43,7 +43,7 @@ module top_tb;
 
     // Send a byte: 8 bits serially with write_in
     repeat (8) begin
-      data_in = $random;
+      data_in = 1'd1;
       write_in = 1;
       #1;
       write_in = 0;
@@ -73,7 +73,7 @@ module top_tb;
     dequeue_in = 0;
     #10;
 
-    $finish;
+    $stop;
   end
 
   // Monitor

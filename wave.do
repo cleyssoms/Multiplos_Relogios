@@ -1,12 +1,15 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /top_tb/clk
+add wave -noupdate /top/clk_100khz
+add wave -noupdate /top/clk_10khz
 add wave -noupdate /top_tb/deserializer_rst
 add wave -noupdate /top_tb/queue_rst
 add wave -noupdate /top_tb/data_in
 add wave -noupdate /top_tb/write_in
 add wave -noupdate /top_tb/dequeue_in
 add wave -noupdate /top_tb/queue_data_out
+add wave -noupdate /top/deserialized_data
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ns} 0}
 quietly wave cursor active 0

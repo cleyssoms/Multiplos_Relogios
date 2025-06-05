@@ -20,6 +20,12 @@ module top (
   logic       clk_10khz;
   logic       clk_100khz;
 
+  initial clk_10khz  = 0;
+  initial clk_100khz = 0;
+
+  initial cnt_10khz  = 0;
+  initial cnt_100khz = 0;
+
   // Iniciando deserializer
   deserializer u_deserializer (
       .clk_100khz (clk_100khz),           // Clock de 100KHz
@@ -39,12 +45,12 @@ module top (
       .data_in    (deserialized_data),      // Dado de entrada
       .enqueue_in (enqueue_in),             // Sinal para inserir
       .dequeue_in (dequeue_in),             // Sinal para remover
-      .len_out        (len),                    // Número de elementos (0-8)
+      .len_out    (len),                    // Número de elementos (0-8)
       .data_out   (queue_data_out)          // Dado removido
   );
 
   // 1MHz / 10 = 100kHz
-  always @(posedge clk) begin
+  always @(negedge clk) begin
     if (cnt_100khz == 4'd10) begin
         cnt_100khz <= 0;
         clk_100khz <= ~clk_100khz;
@@ -54,7 +60,7 @@ module top (
   end
 
   // 1MHz / 100 = 10kHz
-  always @(posedge clk) begin
+  always @(negedge clk) begin
     if (cnt_10khz == 7'd100) begin
         cnt_10khz <= 0;
         clk_10khz <= ~clk_10khz;

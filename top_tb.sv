@@ -1,7 +1,4 @@
-// top_tb.sv
-// Testbench for top.sv
-
-`timescale 1us/1ns
+`timescale 1us/10ns
 
 module top_tb;
   // Testbench signals
@@ -13,8 +10,7 @@ module top_tb;
   logic dequeue_in;
   logic [7:0] queue_data_out;
 
-  // Instantiate the DUT
-  top dut (
+  top top (
     .clk(clk),
     .deserializer_rst(deserializer_rst),
     .queue_rst(queue_rst),
@@ -25,53 +21,54 @@ module top_tb;
   );
 
   // Clock generation: 1MHz (period = 1us)
-  initial clk = 0;
   always #0.5 clk = ~clk;
 
   // Stimulus
   initial begin
     // Initialize signals
+    clk = 0;
     deserializer_rst = 1;
     queue_rst = 1;
     data_in = 0;
     write_in = 0;
     dequeue_in = 0;
-    #2;
+    queue_data_out = 0;
+    #20;
     deserializer_rst = 0;
     queue_rst = 0;
-    #2;
+    #20;
 
     // Send a byte: 8 bits serially with write_in
     repeat (8) begin
-      data_in = 1'd1;
+      data_in = $random;
       write_in = 1;
-      #1;
+      #10;
       write_in = 0;
-      #1;
+      #10;
     end
 
     // Wait and dequeue
-    #20;
+    #200;
     dequeue_in = 1;
-    #1;
-    dequeue_in = 0;
     #10;
+    dequeue_in = 0;
+    #100;
 
     // Send another byte
     repeat (8) begin
       data_in = $random;
       write_in = 1;
-      #1;
+      #10;
       write_in = 0;
-      #1;
+      #10;
     end
 
     // Dequeue again
-    #20;
+    #200;
     dequeue_in = 1;
-    #1;
-    dequeue_in = 0;
     #10;
+    dequeue_in = 0;
+    #100;
 
     $stop;
   end

@@ -1,7 +1,7 @@
 module deserializer_tb;
 
   // Sinais de entrada/saída
-  logic       clk_100mhz;
+  logic       clk_100khz;
   logic       reset;
   logic       data_in;
   logic       write_in;
@@ -12,7 +12,7 @@ module deserializer_tb;
 
   // Instância do desserializador
   deserializer dut (
-    .clk_100mhz(clk_100mhz),
+    .clk_100khz(clk_100khz),
     .reset(reset),
     .data_in(data_in),
     .write_in(write_in),
@@ -24,8 +24,8 @@ module deserializer_tb;
 
   // Geração do clock de 100KHz (período = 10us)
   initial begin
-    clk_100mhz = 0;
-    forever #5 clk_100mhz = ~clk_100mhz; // Inverte a cada 5us (metade do período)
+    clk_100khz = 0;
+    forever #5 clk_100khz = ~clk_100khz; // Inverte a cada 5us (metade do período)
   end
 
   // Procedimento de teste
@@ -43,12 +43,12 @@ module deserializer_tb;
     for (int i = 0; i < 8; i++) begin
       data_in = i[0]; // Envia 0,1,0,1,0,1,0,1 (LSB alternado)
       write_in = 1;
-      @(posedge clk_100mhz); // Aguarda borda de subida
+      @(posedge clk_100khz); // Aguarda borda de subida
     end
     write_in = 0;
 
     // Verifica se o byte está pronto (0x55 = 01010101)
-    @(posedge clk_100mhz);
+    @(posedge clk_100khz);
     if (data_ready !== 1'b1 || data_out !== 8'h55) begin
       $error("ERRO: data_ready=%b, data_out=0x%h (esperado 0x55)", data_ready, data_out);
     end else begin
@@ -58,11 +58,11 @@ module deserializer_tb;
     // Teste 2: Confirmação (ACK)
     $display("\n=== Teste 2: Confirmação com ack_in ===");
     ack_in = 1;           // Confirma o dado
-    @(posedge clk_100mhz);
+    @(posedge clk_100khz);
     ack_in = 0;
 
     // Verifica se o deserializador está disponível novamente
-    @(posedge clk_100mhz);
+    @(posedge clk_100khz);
     if (status_out !== 1'b1 || data_ready !== 1'b0) begin
       $error("ERRO: status_out=%b (deveria ser 1), data_ready=%b (deveria ser 0)", status_out, data_ready);
     end else begin
@@ -74,14 +74,14 @@ module deserializer_tb;
     for (int i = 0; i < 4; i++) begin
       data_in = 1;
       write_in = 1;
-      @(posedge clk_100mhz);
+      @(posedge clk_100khz);
     end
     reset = 1;             // Força reset no meio da operação
-    @(posedge clk_100mhz);
+    @(posedge clk_100khz);
     reset = 0;
 
     // Verifica se tudo foi reiniciado
-    @(posedge clk_100mhz);
+    @(posedge clk_100khz);
     if (data_ready !== 1'b0 || status_out !== 1'b1 || data_out !== 8'h00) begin
       $error("ERRO: Reset não funcionou (data_ready=%b, status_out=%b, data_out=0x%h)", data_ready, status_out, data_out);
     end else begin

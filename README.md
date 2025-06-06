@@ -1,28 +1,11 @@
 # Mutiplos_Relogios
 
-## Deserializador (deserializer.sv)
+Para executar, baixe esse projeto e abra ele no ModelSim na raiz do arquivo .mpf. No terminal do ModelSim o comando `do sim.do` para simular o projeto, `do sim_deserializer.do` para simular o funcionamento somente do deserializador e `do sim_queue.do` para simular o funcionamento somente da queue.
+
+---
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## top (top.sv)
+## Top (top.sv)
 
 Unidade onde os dois elementos são interligados, um clock de 1Mhz é 
 gerado e então dividido (divisão realizada com um contador incrementando até 
@@ -51,4 +34,35 @@ o elemento e então colocado no *data_reg_out*, ou seja, e enviado para fora, e 
 se subtrai um do *count*. Caso o dequeue_in e o enqueue_in sejam ativados com o count
 em 8, o count é mantido e o elemento é adicionado.
 
+---
+
+## Deserializador (deserializer.sv)
+Funcionamento
+1. Reset:
+Inicializa todos os registradores:
+
+shift_reg: 00000000
+bit_counter: 0
+data_ready: 0
+status_out: 1 (disponível).
+2. Recebimento de Bits:
+Quando status_out = 1 (disponível) e write_in = 1 (dado válido):
+
+O bit em data_in é inserido no LSB (bit menos significativo) do shift_reg
+
+O contador bit_counter incrementa a cada bit recebido.
+
+3. Sinalização de Dado Pronto:
+Após 8 bits (bit_counter == 7):
+
+data_ready sobe para 1, indicando que data_out é válido.
+
+status_out cai para 0, bloqueando novos dados até a confirmação.
+
+4. Handshake de Confirmação (ACK):
+Quando o consumidor lê o dado:
+
+Envia ack_in = 1 para liberar o desserializador.
+
+data_ready retorna a 0 e status_out a 1, reiniciando o ciclo e zerando o shift_reg (data_out).
 

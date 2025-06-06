@@ -78,7 +78,7 @@ module queue (
         endcase
 
         // Atualiza o count
-        count--;
+        count <= count - 1;
       end
 
       // Enqueue e Dequeue simultâneos com a fila cheia precisará inserir após retirar o dado

@@ -30,7 +30,7 @@ module queue (
       // Operação de inserção
       if (enqueue_in && (count < 8)) begin
         // Insere novo dado nos bits superiores
-        shift_reg <= {shift_reg[63:8], data_in };
+        shift_reg <= {shift_reg[56:0], data_in };
         count <= count + 1;
         ack_in <= 1;
       end else begin 
@@ -45,47 +45,46 @@ module queue (
         case (count)
           4'b0001: begin
             data_out_reg <= shift_reg[7:0];
-            shift_reg[7:0] <= 8'b0;
+            // shift_reg[7:0] <= 8'b0;
           end
           4'b0010:begin
             data_out_reg <= shift_reg[15:8];
-            shift_reg[15:8] <= 8'b0;
+            // shift_reg[15:8] <= 8'b0;
           end
           4'b0011:begin
             data_out_reg <= shift_reg[23:16];
-            shift_reg[23:16] <= 8'b0;
+            // shift_reg[23:16] <= 8'b0;
           end
           4'b0100:begin
             data_out_reg <= shift_reg[31:24];
-            shift_reg[31:24] <= 8'b0;
+            // shift_reg[31:24] <= 8'b0;
           end
           4'b0101:begin
             data_out_reg <= shift_reg[39:32];
-            shift_reg[39:32] <= 8'b0;
+            // shift_reg[39:32] <= 8'b0;
           end
           4'b0110:begin
             data_out_reg <= shift_reg[47:40];
-            shift_reg[47:40] <= 8'b0;
+            // shift_reg[47:40] <= 8'b0;
           end
           4'b0111:begin
             data_out_reg <= shift_reg[55:48];
-            shift_reg[55:48] <= 8'b0;
+            // shift_reg[55:48] <= 8'b0;
           end
           4'b1000:begin
             data_out_reg <= shift_reg[63:56];
-            shift_reg[63:56] <= 8'b0;
+            // shift_reg[63:56] <= 8'b0;
           end
         endcase
 
         // Atualiza o count
-        count <= count - 1;
+        count--;
       end
 
       // Enqueue e Dequeue simultâneos com a fila cheia precisará inserir após retirar o dado
       // Dessa forma não haverá mais prevalência do enqueue sobre o dequeue
-      if (enqueue_in && dequeue_in && (count == 7)) begin
-        // Insere novo dado nos bits superiores
-        shift_reg <= {data_in, shift_reg[63:8]};
+      if (enqueue_in && dequeue_in && (count == 8)) begin
+        shift_reg <= {shift_reg[56:0], data_in };
         count <= count;
       end
     end

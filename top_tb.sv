@@ -20,12 +20,11 @@ module top_tb;
     .queue_data_out(queue_data_out)
   );
 
-  // Clock generation: 1MHz (period = 1us)
+  // clock : 1MHz
   always #0.5 clk = ~clk;
 
-  // Stimulus
   initial begin
-    // Initialize signals
+    // Inicializacao
     clk = 0;
     deserializer_rst = 1;
     queue_rst = 1;
@@ -39,8 +38,11 @@ module top_tb;
     #20;
 
     // Envia um byte para o deserializador
+    // esta desincronizado com o clock e
+    // portanto enche o deserializador mais rapido,
+    // assim jogando alguns dados fora.
     repeat (8) begin
-      data_in = 1;
+      data_in = $random;
       write_in = 1;
       #50;
       write_in = 0;
@@ -48,28 +50,30 @@ module top_tb;
     end
     write_in = 0;
 
-    // Wait and dequeue
+    // espera e faz o dequeue
     dequeue_in = 1;
     #100;
     dequeue_in = 0;
 
-    #1000;
-    // a partir daqui fds
-    // Send another byte
+    #200;
+    deserializer_rst = 1;
+    #10 // Zerando deserializador por conveniencia
+    deserializer_rst = 0;
+    #200;
+
     repeat (8) begin
       data_in = 1;
       write_in = 1;
-      #50;
+      #11;
       write_in = 0;
-      #50;
+      #11;
     end
+    write_in = 0;
 
-    // Dequeue again
-    #200;
+    // espera e faz o dequeue
     dequeue_in = 1;
-    #10;
-    dequeue_in = 0;
-    #100;
+
+    #500
 
     $stop;
   end

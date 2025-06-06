@@ -7,6 +7,7 @@ add wave -noupdate /queue_tb/enqueue_in
 add wave -noupdate /queue_tb/dequeue_in
 add wave -noupdate /queue_tb/len_out
 add wave -noupdate /queue_tb/data_out
+add wave -noupdate /queue/shift_reg
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ns} 0}
 quietly wave cursor active 0

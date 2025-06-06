@@ -8,6 +8,7 @@ add wave -noupdate /top_tb/deserializer_rst
 add wave -noupdate /top_tb/queue_rst
 add wave -noupdate /top_tb/data_in
 add wave -noupdate /top_tb/write_in
+add wave -noupdate /top/status_out
 add wave -noupdate /top_tb/dequeue_in
 add wave -noupdate /top_tb/queue_data_out
 add wave -noupdate /top/deserialized_data

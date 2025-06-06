@@ -1,4 +1,4 @@
-`timescale 1us/10ns
+`timescale 1us/100ns
 
 module top_tb;
   // Testbench signals
@@ -38,29 +38,30 @@ module top_tb;
     queue_rst = 0;
     #20;
 
-    // Send a byte: 8 bits serially with write_in
+    // Envia um byte para o deserializador
     repeat (8) begin
-      data_in = $random;
+      data_in = 1;
       write_in = 1;
-      #10;
+      #50;
       write_in = 0;
-      #10;
+      #50;
     end
+    write_in = 0;
 
     // Wait and dequeue
-    #200;
     dequeue_in = 1;
-    #10;
-    dequeue_in = 0;
     #100;
+    dequeue_in = 0;
 
+    #1000;
+    // a partir daqui fds
     // Send another byte
     repeat (8) begin
-      data_in = $random;
+      data_in = 1;
       write_in = 1;
-      #10;
+      #50;
       write_in = 0;
-      #10;
+      #50;
     end
 
     // Dequeue again

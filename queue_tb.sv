@@ -3,6 +3,7 @@ module queue_tb;
     logic reset;
     logic [7:0] data_in;
     logic enqueue_in, dequeue_in;
+    logic ack_in;
     logic [3:0] len_out;
     logic [7:0] data_out;
 
@@ -22,6 +23,7 @@ module queue_tb;
 
         // Teste 1: Inserção
         data_in = 8'hA5;
+        #25
         enqueue_in = 1;
         #100;
         enqueue_in = 0;

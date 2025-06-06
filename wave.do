@@ -3,6 +3,7 @@ quietly WaveActivateNextPane {} 0
 add wave -noupdate /top_tb/clk
 add wave -noupdate /top/clk_100khz
 add wave -noupdate /top/clk_10khz
+add wave -noupdate /top/len
 add wave -noupdate /top_tb/deserializer_rst
 add wave -noupdate /top_tb/queue_rst
 add wave -noupdate /top_tb/data_in

@@ -46,6 +46,7 @@ module top (
       .enqueue_in (enqueue_in),             // Sinal para inserir
       .dequeue_in (dequeue_in),             // Sinal para remover
       .len_out    (len),                    // Número de elementos (0-8)
+      .ack_in     (ack_in),
       .data_out   (queue_data_out)          // Dado removido
   );
 
@@ -68,7 +69,6 @@ module top (
         cnt_10khz <= cnt_10khz + 1;
     end
   end
-
 
   // Detect len change and pulse ack_in
   always_ff @(posedge clk_10khz or posedge queue_rst) begin

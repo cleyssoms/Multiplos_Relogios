@@ -30,7 +30,7 @@ module queue (
       // Operação de inserção
       if (enqueue_in && (count < 8)) begin
         // Insere novo dado nos bits superiores
-        shift_reg <= {shift_reg[63:8], data_in };
+        shift_reg <= {data_in, shift_reg[63:8]};
         count <= count + 1;
         ack_in <= 1;
       end else begin 
